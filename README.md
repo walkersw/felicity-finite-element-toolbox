@@ -1,7 +1,9 @@
 # felicity-finite-element-toolbox
 
                        The FELICITY Package
+
  Finite ELement Implementation and Computational Interface Tool for You
+
                  (C) 01/17/2016, Shawn W. Walker
 
 This code is open source under the BSD license (see the LICENSE.txt file).
@@ -17,14 +19,14 @@ USAGE
 
 0. Download the package from:  http://www.mathworks.com/matlabcentral/fileexchange/31141-felicity
 
-1. Extract the given .zip file and read the ``FELICITY.pdf'' file for more info.  In particular, see the INSTALLATION instructions in Chapter 1 of the PDF file.
+1. Extract the given .zip file and read the "FELICITY.pdf" file for more info.  In particular, see the INSTALLATION instructions in Chapter 1 of the PDF file.
 
-2. You need a C++ compiler. I use MS Visual C++, express edition.  If you use LINUX, then the gcc compiler should be fine.  You can configure MATLAB to use a compatible C++ compiler by typing ``mex -setup'' at the MATLAB prompt.
+2. You need a C++ compiler. I use MS Visual C++, express edition.  If you use LINUX, then the gcc compiler should be fine.  You can configure MATLAB to use a compatible C++ compiler by typing "mex -setup" at the MATLAB prompt.
 
 3. Check the manual for tutorials.  SWW: still in the process of moving tutorials over to GitHub.
 
-4. Type ``FELICITY_user_help'' at the MATLAB prompt for info on useful classes within FELICITY.
-Look in the ``Demo'' directories for examples of how to use FELICITY.  Also, check out the quick refernce guide: Quickref.pdf.
+4. Type "FELICITY_user_help" at the MATLAB prompt for info on useful classes within FELICITY.
+Look in the "Demo" directories for examples of how to use FELICITY.  Also, check out the quick refernce guide: Quickref.pdf.
 
 5. Warning!  Make sure that the meshes you use are positively oriented, e.g. make sure edge, triangle, and tetrahedra connectivity lists are positively oriented (i.e. right-hand-rule).  If you do not know what this means, then you should not use this toolbox!
 

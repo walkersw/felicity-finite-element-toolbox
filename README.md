@@ -4,7 +4,7 @@
 
  Finite ELement Implementation and Computational Interface Tool for You
 
-                 (C) 01/17/2016, Shawn W. Walker
+                 (c) 01/17/2016, Shawn W. Walker
 
 This code is open source under the BSD license (see the LICENSE.txt file).
 

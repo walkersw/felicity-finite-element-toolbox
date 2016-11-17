@@ -4,7 +4,7 @@
 
  Finite ELement Implementation and Computational Interface Tool for You
 
-                 (c) 01/17/2016, Shawn W. Walker
+                 (c) 11/18/2016, Shawn W. Walker
 
 This code is open source under the BSD license (see the LICENSE.txt file).
 
@@ -23,7 +23,9 @@ USAGE
 
 2. You need a C++ compiler. I use MS Visual C++, express edition.  If you use LINUX, then the gcc compiler should be fine.  You can configure MATLAB to use a compatible C++ compiler by typing "mex -setup" at the MATLAB prompt.
 
-3. Check the manual for tutorials.  SWW: still in the process of moving tutorials over to GitHub.
+3. Check the manual for tutorials, as well as GitHub:
+
+http://github.com/walkersw/felicity-finite-element-toolbox/wiki
 
 4. Type "FELICITY_user_help" at the MATLAB prompt for info on useful classes within FELICITY.
 Look in the "Demo" directories for examples of how to use FELICITY.  Also, check out the quick refernce guide: Quickref.pdf.
@@ -33,7 +35,7 @@ Look in the "Demo" directories for examples of how to use FELICITY.  Also, check
 
 COMPATIBILITY NOTES
 ========================================================================
-The tool was developed in its current form with R2015a.
+The tool was developed in its current form with R2016b.
 
 You need the MATLAB Symbolic Math Toolbox to use FELICITY.
 You need a C++ compiler that MATLAB can use with its "mex" command.
@@ -41,8 +43,8 @@ You need a C++ compiler that MATLAB can use with its "mex" command.
 
 Tested on these systems:
 
--- Windows 7, 10, 64-bit
-Fully functional with R2013a, R2015a.
+-- Windows 10, 64-bit
+Fully functional with R2016a, R2016b.
 
 -- LINUX KDE/Ubuntu, 64-bit
 Fully functional with R2014a.

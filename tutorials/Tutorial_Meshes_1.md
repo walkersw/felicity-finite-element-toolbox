@@ -1,8 +1,6 @@
 Mesh classes in FELICITY
 ========================
 
-#Introduction
-
 FELICITY has classes that are convenient for _manipulating_ meshes. Once FELICITY is installed (and is in the MATLAB path!), type the following at the MATLAB prompt:
 
 ```matlab

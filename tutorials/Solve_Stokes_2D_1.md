@@ -1,7 +1,7 @@
 Solve the Stokes Equations in 2-D
 =================================
 
-#Weak Formulation:
+# Weak Formulation:
 
 [[https://github.com/walkersw/felicity-finite-element-toolbox/blob/master/images/Demo_Stokes_2D_weak_formulation.jpg|width=800|alt=Weak Form 2-D Stokes Eqn]]
 
@@ -11,7 +11,7 @@ The pressure space will be approximated by a scalar piecewise linear continuous 
 
 However, because pressure is approximated by degree 1 polynomials, we must approximate velocity by degree 2 polynomials (piecewise quadratic).  This is to satisfy the LBB (stability) condition.
 
-#Allocate DoFs for Piecewise Quadratic Polynomials
+# Allocate DoFs for Piecewise Quadratic Polynomials
 
 You should do the tutorial [Allocating Degrees-of-Freedom (DoFs)](../wiki/Allocate_DoFs_1) before proceeding.
 
@@ -21,12 +21,12 @@ Type the following at the MATLAB prompt (or put it in a script file):
 ```matlab
 Main_Dir = 'C:\Your_Favorite_Directory\'; 
 Elem = lagrange_deg2_dim2(); % piecewise quadratic
-FEL_Compile_DoF_Allocate(Main_Dir,'mex_DoF_Lagrange_P2_Allocator_2D',Elem);
+Create_DoF_Allocator(Elem,'mex_DoF_Lagrange_P2_Allocator_2D',Main_Dir);
 ```
 
 Here we named the executable `mex_DoF_Lagrange_P2_Allocator_2D`.  See [Allocating Degrees-of-Freedom (DoFs)](../wiki/Allocate_DoFs_1) for more details.
 
-#Input File
+# Input File
 
 In the MATLAB editor, create the following m-function and name it `MatAssem_Stokes_2D.m`: 
 
@@ -83,17 +83,16 @@ The Linear form `BC_Matrix` represents the stress boundary condition.  The `Stre
 
 `BC_Out` is a coefficient function that will contain the stress boundary condition.
 
-#Compile It!
+# Compile It!
 
 Put the file `MatAssem_Stokes_2D.m` into a directory that is *in your MATLAB path*.  Compile it by running:
 ```matlab
-Main_Dir = 'C:\Your_Favorite_Directory\'; 
-Convert_Mscript_to_MEX(Main_Dir,'MatAssem_Stokes_2D','mex_Stokes_2D_assemble'); 
+Convert_Form_Definition_to_MEX(@MatAssem_Stokes_2D,{},'mex_Stokes_2D_assemble'); 
 ```
 
 Here we named the executable `mex_Stokes_2D_assemble`.  See the tutorial [Solve Laplace's Equation](../wiki/Solve_Laplaces_Eqn_1) for more info on this compilation step.
 
-#Run It!
+# Run It!
 
 We will solve the 2-D Stokes problem. First, type the following commands at the MATLAB prompt (or put them into a separate script file):
 
@@ -141,8 +140,8 @@ Pressure_DoFmap = uint32(Mesh.ConnectivityList);
 
 For the velocity space, it will behoove us to use another FELICITY class `FiniteElementSpace`.  Enter the following into MATLAB:
 ```matlab
-P2_RefElem = ReferenceFiniteElement(lagrange_deg2_dim2(),2,true);
-P2_Lagrange_Space = FiniteElementSpace('Velocity', P2_RefElem, Mesh, 'Omega');
+P2_RefElem = ReferenceFiniteElement(lagrange_deg2_dim2());
+P2_Lagrange_Space = FiniteElementSpace('Velocity', P2_RefElem, Mesh, 'Omega', 2); % 2 components
 ```
 This class allows us to extract DoFs that are attached to embedded sub-domains.
 
@@ -260,7 +259,7 @@ Vel_Soln(:)   = Soln(1:2*Num_Scalar_Vel_DoF,1);
 Pressure_Soln = Soln(2*Num_Scalar_Vel_DoF+1:end,1);
 ```
 
-#Plot It
+# Plot It
 
 ```matlab
 figure;

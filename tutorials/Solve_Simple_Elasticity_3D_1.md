@@ -1,13 +1,13 @@
 Solve Laplace's Equation in 3-D
 ===============================
 
-#Weak Formulation:
+# Weak Formulation:
 
 [[https://github.com/walkersw/felicity-finite-element-toolbox/blob/master/images/Simple_Elasticity_3D_weak_formulation.jpg|width=700|alt=Weak Form 3-D Laplace]]
 
 Note: this is a simple model of elasticity in 3-D.
 
-#Input File
+# Input File
 
 In the MATLAB editor, create the following m-function and name it `MatAssem_Simple_Elasticity_3D.m`:
 
@@ -52,23 +52,17 @@ end
 
 Here we define the main bilinear form and we define the integral quantity in the "matrix" `Eval_Matrix`.  Note that the finite element space is vector-valued.  We also introduced a geometric function object (for the sub-domain \Sigma) gSigma.  The tangent vector of \Sigma is accessed by gSigma.T.
 
-#Compile It!
+# Compile It!
 
-Put the file `MatAssem_Simple_Elasticity_3D.m` into a directory that is *in your MATLAB path*. Now define a MATLAB string variable that records that directory name:
-
-```matlab
->> Main_Dir = 'C:\Your_Favorite_Directory\'; 
-```
-
-Now compile it by typing the following command at the MATLAB prompt and press "ENTER":
+Put the file `MatAssem_Simple_Elasticity_3D.m` into a directory that is *in your MATLAB path*.  Now compile it by typing the following command at the MATLAB prompt and press "ENTER":
 
 ```matlab
->> Convert_Mscript_to_MEX(Main_Dir,'MatAssem_Simple_Elasticity_3D','Assemble_Simple_Elasticity_3D'); 
+Convert_Form_Definition_to_MEX(@MatAssem_Simple_Elasticity_3D,{},'Assemble_Simple_Elasticity_3D'); 
 ```
 
 Here we named the executable `Assemble_Simple_Elasticity_3D` (see next section).
 
-#Run It!
+# Run It!
 
 We will solve the 3-D Laplace problem. First, type the following commands at the MATLAB prompt (or put them into a separate script file):
 
@@ -180,7 +174,7 @@ Recalc_FEM = Assemble_Simple_Elasticity_3D([],Mesh.Points,uint32(Mesh.Connectivi
 Integral_Quantity = Recalc_FEM(1).MAT;
 ```
 
-#Plot It
+# Plot It
 
 ```matlab
 figure;

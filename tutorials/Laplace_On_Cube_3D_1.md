@@ -3,13 +3,13 @@ Solving the 3-D Laplace Equation
 
 This is a tutorial on solving the 3-D Laplace equation with matrix re-assembly, when you have a large number of DoFs.
 
-#Scalar Laplace's Equation on a Cube (3-D)
+# Scalar Laplace's Equation on a Cube (3-D)
 
 Weak Formulation:
 
 [[https://github.com/walkersw/felicity-finite-element-toolbox/blob/master/images/Laplace_On_Cube_3D_weak_formulation.jpg|width=720|alt=Weak Form 3-D Laplace Eqn]]
 
-#Input File
+# Input File
 
 In the MATLAB editor, create the following m-function and name it `MatAssem_Laplace_On_Cube_3D.m`: 
 
@@ -43,17 +43,16 @@ MATS = MATS.Append_Matrix(Stiff_Matrix);
 end
 ```
 
-#Compile It!
+# Compile It!
 
 Put the file *MatAssem_Laplace_On_Cube_3D.m* into a directory that is *in your MATLAB path*.  Compile it by running:
 ```matlab
-Main_Dir = 'C:\Your_Favorite_Directory\'; 
-Convert_Mscript_to_MEX(Main_Dir,'MatAssem_Laplace_On_Cube_3D','mex_Laplace_On_Cube_3D_assemble'); 
+Convert_Form_Definition_to_MEX(@MatAssem_Laplace_On_Cube_3D,{},'mex_Laplace_On_Cube_3D_assemble'); 
 ```
 
 See the tutorial [Solve Laplace's Equation](../wiki/Solve_Laplaces_Eqn_1) for more info on this compilation step.
 
-#Run It!
+# Run It!
 
 We will solve the 3-D Laplace problem. First, type the following commands at the MATLAB prompt (or put them into a separate script file):
 
@@ -146,7 +145,7 @@ Soln_Diff
 ```
 For a large 3-D elliptic PDE problem, AGMG is *much faster* than backslash.  Note: AGMG is *not* included with FELICITY; you must download it and install it separately.
 
-#Plot It!
+# Plot It!
 
 You can plot the solution with the following commands:
 ```matlab

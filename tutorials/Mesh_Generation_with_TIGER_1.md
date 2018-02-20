@@ -3,7 +3,7 @@ Mesh Generation With TIGER: Part 1
 
 This is a tutorial on generating unstructured meshes of domains described by iso-surfaces.
 
-#Introduction
+# Introduction
 
 FELICITY provides an algorithm for generating unstructured (triangle and tetrahedral) meshes with *guaranteed* angle bounds.  In 3-D, the dihedral angles are mathematically guaranteed to be between *8.54* degrees and *164.18* degrees.  Hence, meshes can be generated _robustly_.  And it is very *fast*!
 
@@ -11,11 +11,11 @@ FELICITY provides an algorithm for generating unstructured (triangle and tetrahe
 
 Also note these meshes are quasi-uniform.
 
-#Simple Example (2-D)
+# Simple Example (2-D)
 
 Mesh an ellipse.
 
-##Initialization
+## Initialization
 
 After you have installed FELICITY, make sure you run `test_FELICITY.m` or `compile_static_codes.m`.  This will compile the C++ code that is the backbone of the mesh generator.
 
@@ -34,7 +34,7 @@ This creates a MATLAB object that runs the mesher and interfaces with a MEX/C++ 
 
 The tolerance dictates how well we approximate the cut points.  Here, it is set to `1E-2` and is relative to the mesh edge lengths. Thus it is a relative tolerance (or relative error).
 
-##Define Iso-surface
+## Define Iso-surface
 
 Next, we define a level set function that represents an ellipse:
 ```matlab
@@ -50,12 +50,28 @@ which defines the two radii, the center position of the ellipse, and whether it 
 ./FELICITY/Static_Codes/Isosurface_Meshing/LevelSets_2D/@LS_Many_Ellipses
 ```
 
-##Generate Mesh
+## Generate Mesh
 
-Run the mesher with the following commands.
+Next, we need to pass a function handle for the level set interpolation to the mesh generator.  For this example, we do
 ```matlab
-MG = MG.Get_Cut_Info(LS);
-[TRI, VTX] = MG.run_mex(LS);
+% setup up handle to interpolation routine
+Interp_Handle = @(pt) LS.Interpolate(pt);
+```
+In general, the user may provide their own interpolation routine that samples the level set function.  The format of the function must be:
+```matlab
+[phi, grad_phi] = Interp_Func(point);
+```
+where
+```matlab
+% phi      = the level set function value
+% grad_phi = the gradient of the level set function
+% point    = array of point coordinate to evaluate at
+```
+
+Then, run the mesher with the following commands.
+```matlab
+MG = MG.Get_Cut_Info(Interp_Handle);
+[TRI, VTX] = MG.run_mex(Interp_Handle);
 ```
 
 This outputs the triangle connectivity data `TRI` (Mx3 matrix, where M is the number of triangles), and the vertex coordinates `VTX` (Nx2 matrix, where N is the number of vertices).
@@ -68,11 +84,11 @@ grid on;
 ```
 Note: you can also use the FELICITY class `MeshTriangle` to plot it and make other manipulations.  See the tutorial [Mesh Classes](../wiki/Tutorial_Meshes_1) for more info.
 
-#Mesh With Holes (2-D)
+# Mesh With Holes (2-D)
 
 Mesh a disk with ellipse shaped holes.
 
-##Define Iso-surface
+## Define Iso-surface
 
 Use the same `LS_Many_Ellipses` class to define a domain with holes:
 ```matlab
@@ -86,12 +102,15 @@ LS.Param.sign  = [1, -1, -1];
 
 All of the parameters are vectors of equal length that define three ellipses.  The first ellipse is actually a circle (equal x and y radii) and has +1 sign.  The next two ellipses have a negative sign which indicates to subtract them (see the implementation of the `Interpolate` routine in the `LS_Many_Ellipses` class for more info.
 
-##Generate Mesh
+## Generate Mesh
 
 Next, generate the mesh exactly how we did before:
 ```matlab
-MG = MG.Get_Cut_Info(LS);
-[TRI, VTX] = MG.run_mex(LS);
+% setup up handle to interpolation routine
+Interp_Handle = @(pt) LS.Interpolate(pt);
+
+MG = MG.Get_Cut_Info(Interp_Handle);
+[TRI, VTX] = MG.run_mex(Interp_Handle);
 ```
 and plot it:
 ```matlab
@@ -100,7 +119,7 @@ axis equal;
 grid on;
 ```
 
-##How To Define Other Surfaces
+## How To Define Other Surfaces
 
 To define your own domain, simply copy (and rename) the directory 
 ```matlab
@@ -114,11 +133,11 @@ for more info and examples.
 
 *Note* you can mesh domains described by a polygon by using MATLAB's `inpolygon` routine to indicate whether a point is inside or outside.  However, you can only use bisection to compute the cut points.  Also note that the output mesh from the TIGER algorithm will not have the same vertices as the polygonal curve used to describe it.
 
-#Simple Example (3-D)
+# Simple Example (3-D)
 
 Mesh a sphere.
 
-##Initialization
+## Initialization
 
 Initializing the mesh generator is basically the same:
 ```matlab
@@ -139,7 +158,7 @@ The tolerance is set to 1E-12 and refers to the following convergence criteria:
 ```
 where `f` is the level set function value.  Note: we always assume we are meshing the volume bounded by the *zero* level set.
 
-##Define Iso-surface
+## Define Iso-surface
 
 We use a FELICITY provided MATLAB class to define the sphere:
 ```matlab
@@ -152,12 +171,15 @@ LS.Param.sign = 1;
 ```
 The sphere has radius 0.1, and it is centered at (0.5,0.5,0.5).
 
-##Generate Mesh
+## Generate Mesh
 
 Generating the mesh is the same as before:
 ```matlab
-MG = MG.Get_Cut_Info(LS);
-[TET, VTX] = MG.run_mex(LS);
+% setup up handle to interpolation routine
+Interp_Handle = @(pt) LS.Interpolate(pt);
+
+MG = MG.Get_Cut_Info(Interp_Handle);
+[TET, VTX] = MG.run_mex(Interp_Handle);
 ```
 
 This outputs the tetrahedron connectivity data `TET` (Mx4 matrix, where M is the number of tetrahedrons), and the vertex coordinates `VTX` (Nx3 matrix, where N is the number of vertices).
@@ -170,11 +192,11 @@ grid on;
 ```
 Note: you can also use the FELICITY class `MeshTetrahedron` to plot it and make other manipulations.  See the tutorial [Mesh Classes](../wiki/Tutorial_Meshes_1) for more info.
 
-#Volume Data (3-D)
+# Volume Data (3-D)
 
 Mesh volumetric data.  This is probably the most common use for the TIGER algorithm.
 
-##Initialization
+## Initialization
 
 Initialize the mesh generator:
 ```matlab
@@ -189,7 +211,7 @@ MG = Mesher3Dmex(Cube_Dim,Num_BCC_Points,Use_Newton,TOL);
 
 We only use bisection here.
 
-##Define Iso-surface
+## Define Iso-surface
 
 We use a FELICITY class to store the volumetric data:
 ```matlab
@@ -207,12 +229,15 @@ LS.Grid.V = R - sqrt((X - 0.5).^2 + (Y - 0.5).^2 + (Z - 0.5).^2) + C0 * V_pert;
 ```
 In other words, we defined volumetric data whose zero level set is a sphere, but then we added a _perturbation_ to that.
 
-##Generate Mesh
+## Generate Mesh
 
 Generating the mesh:
 ```matlab
-MG = MG.Get_Cut_Info(LS);
-[TET, VTX] = MG.run_mex(LS);
+% setup up handle to interpolation routine
+Interp_Handle = @(pt) LS.Interpolate(pt);
+
+MG = MG.Get_Cut_Info(Interp_Handle);
+[TET, VTX] = MG.run_mex(Interp_Handle);
 ```
 and plot it:
 ```matlab
@@ -221,7 +246,7 @@ axis equal;
 grid on;
 ```
 
-#Conclusion
+# Conclusion
 
 For 2-D and 3-D, the definition of the iso-surface (i.e. zero level set) is made in the Interpolate routine.  For an example, look in the directory:
 ```matlab

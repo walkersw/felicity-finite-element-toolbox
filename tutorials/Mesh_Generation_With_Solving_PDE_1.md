@@ -3,7 +3,7 @@ Mesh Generation and Solving a PDE
 
 This tutorial takes you from generating a mesh of a non-trivial domain, to solving a PDE (Laplace's equation) on that mesh with non-trivial boundary conditions.
 
-#Laplace's Equation on a Disk With Holes (2D)
+# Laplace's Equation on a Disk With Holes (2D)
 
 Weak Formulation:
 
@@ -15,7 +15,7 @@ Domain \Omega:
 
 Note: you should do the tutorial [Mesh Generation With TIGER](../wiki/Mesh_Generation_with_TIGER_1) before proceeding.
 
-#Input File
+# Input File
 
 First we need to generate code that will assemble the matrices we need to form the discrete finite element version of the weak formulation described above.
 
@@ -70,23 +70,22 @@ where `gf` is a geometric function on `Gamma` that provides access to geometric 
 * etc...
 See chapter 4 of the PDF manual for more info.
 
-#Compile It!
+# Compile It!
 
 Put the file `MatAssem_Mesh_Gen_With_Solving_PDE.m` into a directory that is *in your MATLAB path*.  Compile it by running:
 ```matlab
-Main_Dir = 'C:\Your_Favorite_Directory\'; 
-Convert_Mscript_to_MEX(Main_Dir,'MatAssem_Mesh_Gen_With_Solving_PDE','mex_Mesh_Gen_With_Solving_PDE_assemble'); 
+Convert_Form_Definition_to_MEX(@MatAssem_Mesh_Gen_With_Solving_PDE,{},'mex_Mesh_Gen_With_Solving_PDE_assemble');
 ```
 
 Here we named the executable `mex_Mesh_Gen_With_Solving_PDE_assemble`.  See the tutorial [Solve Laplace's Equation](../wiki/Solve_Laplaces_Eqn_1) for more info on this compilation step.
 
-#How To Solve The Problem
+# How To Solve The Problem
 
 We now walk you through creating the mesh, defining the subdomains, defining finite element spaces and boundary conditions, assembling the matrices, solving the system, and plotting the solution.
 
 Note: you can either type the following commands at the MATLAB prompt or put them into a separate script file.
 
-##Create The Mesh
+## Create The Mesh
 
 Start by creating a mesh generator:
 ```matlab
@@ -111,9 +110,12 @@ LS.Param.sign  = [1, -1, -1, -1];
 ```
 and create the mesh:
 ```matlab
+% setup up handle to interpolation routine
+Interp_Handle = @(pt) LS.Interpolate(pt);
+
 % mesh it!
-MG = MG.Get_Cut_Info(LS);
-[TRI, VTX] = MG.run_mex(LS);
+MG = MG.Get_Cut_Info(Interp_Handle);
+[TRI, VTX] = MG.run_mex(Interp_Handle);
 ```
 
 For convenience, we shall use a FELICITY mesh class to hold the mesh information:
@@ -143,7 +145,7 @@ text(-0.43,0.2,'\Sigma_3');
 hold off;
 ```
 
-##Define Subdomains
+## Define Subdomains
 
 Next, we find and store information for the various subdomains.  Note: all of the subdomains here are contained in the boundary of \Omega.
 
@@ -184,7 +186,7 @@ DoI_Names = {'Omega'; 'Gamma'};
 Subdomain_Embed = Mesh.Generate_Subdomain_Embedding_Data(DoI_Names);
 ```
 
-##Define The Finite Element Space
+## Define The Finite Element Space
 
 First, define the DoFmap using the triangulation:
 ```matlab
@@ -195,7 +197,7 @@ Recall the comment before about `Remove_Unused_Vertices`.
 Next, use a FELICITY class to contain information about the finite element space:
 ```matlab
 % define finite element space object
-P1_RefElem = ReferenceFiniteElement(lagrange_deg1_dim2(),1,true);
+P1_RefElem = ReferenceFiniteElement(lagrange_deg1_dim2());
 P1_Lagrange_Space = FiniteElementSpace('Solution', P1_RefElem, Mesh, 'Omega');
 % store DoFmap
 P1_Lagrange_Space = P1_Lagrange_Space.Set_DoFmap(Mesh,P1_Space_DoFmap);
@@ -208,14 +210,14 @@ P1_Lagrange_Space = P1_Lagrange_Space.Set_Fixed_Subdomains(Mesh,{'Sigma_1', 'Sig
 ```
 "Fixed" refers to the fact that any Degrees-of-Freedom (DoFs) on those subdomains are fixed (given) by some condition.
 
-##Assemble Matrices
+## Assemble Matrices
 
 Call the executable that you generated before:
 ```matlab
 FEM = mex_Mesh_Gen_With_Solving_PDE_assemble([],Mesh.Points,P1_Space_DoFmap,[],Subdomain_Embed,P1_Lagrange_Space.DoFmap);
 ```
 
-##Setup Linear System
+## Setup Linear System
 
 Next, we setup the linear system (with boundary conditions) and solve it.
 
@@ -253,7 +255,7 @@ disp('Solve linear system with backslash:');
 Soln(FreeDoFs,1) = A(FreeDoFs,FreeDoFs) \ RHS(FreeDoFs,1);
 ```
 
-##Plot Solution
+## Plot Solution
 
 Finally, plot the solution:
 ```matlab

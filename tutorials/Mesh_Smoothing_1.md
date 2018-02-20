@@ -1,13 +1,13 @@
 Smoothing Meshes
 ================
 
-#Introduction
+# Introduction
 
 Some types of finite element computations require one to move the mesh, i.e. the positions of vertices of the mesh are changed.  This could be for a time-dependent ALE (Arbitrary-Lagrangian-Eulerian) method.
 
 Because of this, meshes may become distorted with "bad" element qualities.  Usually this means the angles of the elements (triangles or tetrahedrons) are close to being degenerate (near 0 or 180 degrees).  For reasons of accuracy and conditioning, it is best to avoid such degenerate elements.
 
-#Mesh Smoothing by Minimizing E_ODT
+# Mesh Smoothing by Minimizing E_ODT
 
 FELICITY provides an implementation of a mesh smoother based on the method described in:
 
@@ -17,7 +17,7 @@ and
 
 Chen, L. "Mesh smoothing schemes based on optimal Delaunay triangulations," 13th International Meshing Roundtable, Sandia National Laboratories, 2004, 109-120
 
-#Example: Smooth Deformation
+# Example: Smooth Deformation
 
 At the MATLAB prompt (or in a script file) type the following:
 ```matlab
@@ -82,7 +82,7 @@ title('Smoothed Mesh After 30 Gauss-Seidel Iterations');
 ```
 Notice that it took 30 iterations to achieve a reasonably uniform mesh.  This is because the Gauss-Seidel method is used.
 
-#Example: Random Perturbation
+# Example: Random Perturbation
 
 Now lets apply a random displacement of the vertex positions:
 ```matlab

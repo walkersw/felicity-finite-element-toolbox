@@ -1,13 +1,13 @@
 Solving Laplace's Equation in 1-D
 =================================
 
-#Introduction
+# Introduction
 
 [[https://github.com/walkersw/felicity-finite-element-toolbox/blob/master/images/Laplace_Var_Form.jpg|width=650|alt=Variational Form of Laplace's Eqn]]
 
 To solve this numerically, we need to create the discrete operators (i.e. matrices). The philosophy behind FELICITY is to first define the bilinear forms (variational representation of the differential operators) via a user specified input file. Then FELICITY *automatically generates* a special purpose C++/MEX file and compiles it. This becomes an executable file that you can call directly from MATLAB. 
 
-#Input File
+# Input File
 
 In the MATLAB editor, create the following m-function and name it `Example_1D.m`:
 
@@ -42,23 +42,17 @@ end
 
 Don't worry about what it means just yet (the PDF manual explains more). 
 
-#Compile It!
+# Compile It!
 
-Put the file `Example_1D.m` into a directory that is *in your MATLAB path*. Now define a MATLAB string variable that records that directory name:
-
-```matlab
->> Main_Dir = 'C:\Your_Favorite_Directory\'; 
-```
-
-Now compile it by typing the following command at the MATLAB prompt and press "ENTER":
+Put the file `Example_1D.m` into a directory that is *in your MATLAB path*.  Now compile it by typing the following command at the MATLAB prompt and press "ENTER":
 
 ```matlab
->> Convert_Mscript_to_MEX(Main_Dir,'Example_1D','Assemble_1D'); 
+Convert_Form_Definition_to_MEX(@Example_1D,{},'Assemble_1D');
 ```
 
 Here we named the executable `Assemble_1D` (see next section).
 
-#Run It!
+# Run It!
 
 We will solve the 1-D Laplace problem. First, type the following commands at the MATLAB prompt:
 

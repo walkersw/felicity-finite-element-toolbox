@@ -1,15 +1,15 @@
 Quadtree Implementation
 =======================
 
-#Introduction
+# Introduction
 
 FELICITY provides implementations of binary trees, quadtrees, and octrees for storing points distributed in space.  This can be used to query nearest neighbors, and find closest points.
 
-#Quadtree Example (2-D)
+# Quadtree Example (2-D)
 
 Use a quadtree to efficiently find k nearest neighbors.
 
-##Initialization
+## Initialization
 
 After you have installed FELICITY, make sure you run `test_FELICITY.m` or `compile_static_codes.m`.  This will compile the C++ code that implements the search tree.
 
@@ -35,7 +35,7 @@ Note: `QT.Points` contains a copy of the matrix `points`.
 
 This creates a MATLAB object that runs the quadtree and interfaces with a C++ class object.
 
-##Query Nearest Neighbors
+## Query Nearest Neighbors
 
 Next, for each point in a given set of query points, we want to find the k nearest neighbors amongst the points we stored in the quadtree.  Thus, define some random query points:
 ```matlab
@@ -56,7 +56,7 @@ For example, `QT_indices(i,:)` gives the two nearest neighbors (in `QT.Points`) 
 
 `QT_dist` gives the euclidean distance to the nearest neighbors.
 
-##Change The Point Positions
+## Change The Point Positions
 
 Suppose you want to change the coordinates of the points stored in the quadtree.  This could be because the points are moving in a simulation.  Here is how to do it.
 ```matlab
@@ -85,7 +85,7 @@ axis([0 1 0 1]);
 axis equal;
 ```
 
-##Final Cleanup
+## Final Cleanup
 
 When you are done with the object, you *must* delete it:
 ```matlab
@@ -93,7 +93,7 @@ When you are done with the object, you *must* delete it:
 delete(QT);
 ```
 
-#Conclusion
+# Conclusion
 
 See the unit tests in the directory:
 ```matlab

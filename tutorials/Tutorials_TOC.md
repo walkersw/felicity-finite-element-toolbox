@@ -6,14 +6,14 @@ Introduction
 
 This page gives a brief how-to on using the FELICITY toolbox. See the FELICITY (PDF) Manual in the .zip file, which can be downloaded [here](http://www.mathworks.com/matlabcentral/fileexchange/31141-felicity).
 
-#Basic Tutorials
+# Basic Tutorials
 
 * [Mesh Classes](../wiki/Tutorial_Meshes_1).
 * [Solve Laplace's Equation](../wiki/Solve_Laplaces_Eqn_1).
 * [Allocating Degrees-of-Freedom (DoFs)](../wiki/Allocate_DoFs_1).
 * [Smoothing Meshes](../wiki/Mesh_Smoothing_1).
 
-#Advanced Tutorials
+# Advanced Tutorials
 
 * [Solve Simple Elasticity Model](../wiki/Solve_Simple_Elasticity_3D_1).
 * [Solve the Stokes Equations in 2-D](../wiki/Solve_Stokes_2D_1).
@@ -22,8 +22,10 @@ This page gives a brief how-to on using the FELICITY toolbox. See the FELICITY (
 * [Interpolating Finite Element Data](../wiki/Tutorial_Interpolation_1).
 * [Solving the 3-D Laplace Equation](../wiki/Laplace_On_Cube_3D_1).
 * [Mesh Generation and Solving a PDE](../wiki/Mesh_Generation_With_Solving_PDE_1).
+* [A Finite Element Space on a Higher Order Mesh](../wiki/FE_Space_on_Higher_Order_Mesh_1).
+* [Solving Laplace-Beltrami on a Higher Order Mesh](../wiki/Laplace_Beltrami_Open_Surface_1).
 
-#Miscellaneous Utilities
+# Miscellaneous Utilities
 
 * [Mesh Generation With TIGER: Part 1](../wiki/Mesh_Generation_with_TIGER_1).
 * [Mesh Generation With TIGER: Part 2](../wiki/Mesh_Generation_with_TIGER_2).

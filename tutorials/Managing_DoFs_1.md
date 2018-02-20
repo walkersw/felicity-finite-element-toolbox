@@ -3,13 +3,13 @@ Managing Degrees-of-Freedom (DoFs): Part 1
 
 This is a simple tutorial on how to manage and sift through DoFs using the FiniteElementSpace class in FELICITY.
 
-#Managing Degrees-of-Freedom
+# Managing Degrees-of-Freedom
 
 Consider a Degree-of-Freedom (DoF) allocation on a simple two triangle mesh:
 
 [[https://github.com/walkersw/felicity-finite-element-toolbox/blob/master/images/Tutorial_Managing_DoFs_Ex_P2.jpg|width=320|alt=DoF Allocation]]
 
-##Scalar-Valued Finite Element Space
+## Scalar-Valued Finite Element Space
 
 The above figure is a simple mesh of a square domain with a piecewise quadratic finite element space defined over it.  The nodal variables are denoted by diamonds.  There are six local basis functions on each triangle, so there are six indices associated with each triangle:
 
@@ -24,7 +24,7 @@ DoFmaps are stored as matrices in MATLAB. Each row of the DoFmap corresponds to 
 
 See Section 6.4 of the PDF manual for more info.
 
-##Tensor-Valued Finite Element Space
+## Tensor-Valued Finite Element Space
 
 For a tensor-valued space (such as when you are approximating a vector field), the DoFmap is a little more complicated.  Suppose the functions in our finite element space are vector-valued with two components.  Then the DoFmap decomposes into two parts:
 
@@ -43,11 +43,11 @@ Thus, for storage purposes, we only need the DoFmap for the first component. The
 
 See Section 6.4 of the PDF manual for more info.
 
-#The FiniteElementSpace Class
+# The FiniteElementSpace Class
 
 FELICITY has the class FiniteElementSpace that allows for access to and manipulation of the DoFmap.
 
-##Basic DoF Routines
+## Basic DoF Routines
 
 Let’s do an example. First create the mesh in the figure above by typing the following at the MATLAB prompt:
 ```matlab
@@ -74,17 +74,17 @@ Mesh = Mesh.Append_Subdomain('1D','Diag',[1 3]);
 Mesh = Mesh.Append_Subdomain('2D','Bottom Tri',[1]);
 ```
 
-Next, load up the degree 2, Lagrange element of dimension 2 (i.e. defined on a triangle), and create a ReferenceFiniteElement object that is tensor-valued with 2 components:
+Next, load up the degree 2, Lagrange element of dimension 2 (i.e. defined on a triangle), and create a ReferenceFiniteElement object:
 ```matlab
 % declare reference element
 P2_Elem = lagrange_deg2_dim2();
-RE = ReferenceFiniteElement(P2_Elem,2); % 2 components
+RE = ReferenceFiniteElement(P2_Elem);
 ```
 
-Now create the FiniteElementSpace object for the FE space:
+Now create the FiniteElementSpace object for the FE space, which is a cartesian (tensor) product of two scalar valued FE spaces:
 ```matlab
 % declare a finite element space
-FES = FiniteElementSpace('P2',RE,Mesh,[]);
+FES = FiniteElementSpace('P2',RE,Mesh,[],2); % 2 components
 clear RE; % not needed anymore
 ```
 
@@ -93,7 +93,8 @@ The arguments of FiniteElementSpace (in order) are:
 * A name for the finite element space, e.g. `'P2'`.
 * The reference finite element for the space.
 * The mesh data for the finite element space.
-* The name of the sub-domain that the finite element space is defined on. In this case, the space is defined on the entire mesh (no sub-domain), so just pass the empty matrix [].
+* The name of the sub-domain that the finite element space is defined on. In the case above, the space is defined on the entire mesh (no sub-domain), so just pass the empty matrix [].
+* The number of components of the space, if the space is a cartesian (tensor) product of scalar valued spaces.  If this argument is omitted, then the default value is 1 component.
 
 We must still set the DoFmap for this space. So we store it by the following commands:
 ```matlab
@@ -156,7 +157,7 @@ FES.Get_DoFs('all')
 ```
 Note: each row of this matrix corresponds to one of the diamonds in the figure, i.e. each row stores the first and second component DoF indices, both of which have the same global coordinates.
 
-##DoFs on Sub-domains
+## DoFs on Sub-domains
 
 When sub-domains are present, you can retrieve the subset of DoFs that lie on a given sub-domain. For example, we can get the Boundary DoFs by:
 ```matlab

@@ -3,13 +3,13 @@ Interpolating Finite Element Data
 
 This is a tutorial on generating code to perform interpolation of finite element data.
 
-#Introduction
+# Introduction
 
 [[https://github.com/walkersw/felicity-finite-element-toolbox/blob/master/images/Tutorial_Interpolation_Ex_P2.jpg|width=800|alt=Interpolating P2 Finite Element Data]]
 
 FELICITY can *automatically generate* a special purpose C++/MEX file and compile it for most interpolation purposes. This becomes an executable file that you can call directly from MATLAB. 
 
-#Input File
+# Input File
 
 In the MATLAB editor, create the following m-function and name it `Interpolate_Grad_P_X_2D.m`: 
 
@@ -45,23 +45,17 @@ end
 
 Don't worry about what it means just yet (the PDF manual explains more; see Chapter 7). 
 
-#Compile It!
+# Compile It!
 
-Put the file `Interpolate_Grad_P_X_2D.m` into a directory that is *in your MATLAB path*. Now define a MATLAB string variable that records that directory name:
-
-```matlab
-Main_Dir = 'C:\Your_Favorite_Directory\'; 
-```
-
-Now compile it by typing the following command at the MATLAB prompt and press "ENTER":
+Put the file `Interpolate_Grad_P_X_2D.m` into a directory that is *in your MATLAB path*.  Now compile it by typing the following command at the MATLAB prompt and press "ENTER":
 
 ```matlab
-Convert_Interp_script_to_MEX(Main_Dir,'Interpolate_Grad_P_X_2D','Interp_2D'); 
+Convert_Interp_Definition_to_MEX(@Interpolate_Grad_P_X_2D,{},'Interp_2D');
 ```
 
 Here we named the executable `Interp_2D` (see next section).
 
-#Run It!
+# Run It!
 
 First, create the domain (triangulation) for the unit square. At the MATLAB prompt (or in a script) type the following commands:
 ```matlab
@@ -73,7 +67,7 @@ Mesh = MeshTriangle(Tri, Vtx, 'Omega');
 i.e. the mesh consists of two triangles. Next, define the piecewise quadratic finite element space:
 ```matlab
 % define FE space
-P2_RefElem = ReferenceFiniteElement(lagrange_deg2_dim2(),1,true);
+P2_RefElem = ReferenceFiniteElement(lagrange_deg2_dim2());
 P2_Lagrange_Space = FiniteElementSpace('Scalar_P2', P2_RefElem, Mesh, 'Omega');
 P2_DoFmap = uint32(Setup_Lagrange_P2_DoFmap(Mesh.ConnectivityList,[]));
 P2_Lagrange_Space = P2_Lagrange_Space.Set_DoFmap(Mesh,P2_DoFmap);
@@ -96,7 +90,7 @@ Next, define an analytic function for the expression ∇p · x:
 I_grad_p_X = @(x,y) px_func(x,y) .* x + py_func(x,y) .* y;
 ```
 
-##Interpolate At Two Points
+## Interpolate At Two Points
 
 Now, define the coordinates of the interpolation points. In this example, we will only have two interpolation points:
 ```matlab
@@ -128,7 +122,7 @@ INTERP(1).Name : 'I_grad_p_X'
 INTERP(1).DATA : cell array containing interpolation data for the expression
 ```
 
-##Interpolate At Many Points
+## Interpolate At Many Points
 
 Interpolating two points is not so complicated. Lets create a grid of points on the unit square and interpolate at those:
 ```matlab

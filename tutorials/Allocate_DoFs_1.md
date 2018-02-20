@@ -1,7 +1,7 @@
 Allocating Degrees-of-Freedom (DoFs)
 ====================================
 
-#Introduction
+# Introduction
 
 In the previous tutorials, the finite element space was very simple: piecewise linear, continuous Lagrange polynomials.  In this case, the Degrees-of-Freedom (DoFs) correspond directly to the vertices of the mesh.  Hence, you can use the mesh element connectivity data to know which DoFs belong to each element.
 
@@ -13,7 +13,7 @@ It is certainly possible for you to write a special purpose MATLAB code to alloc
 
 In this tutorial, we will generate code (MEX file) to allocate DoFs for continuous Lagrange, piecewise linear and piecewise quadratic finite element spaces on a 2-D triangle mesh.  Then we will input a sample mesh to this MEX file to test it.
 
-#Code Generation
+# Code Generation
 
 Type the following at the MATLAB prompt (or put it in a script file):
 ```matlab
@@ -30,12 +30,12 @@ Main_Dir = 'C:\Your_Favorite_Directory\';
 
 Now generate and compile the DoF allocation code by typing the following command at the MATLAB prompt and press "ENTER":
 ```matlab
-FEL_Compile_DoF_Allocate(Main_Dir,'mexDoF_Example_2D',Elem);
+Create_DoF_Allocator(Elem,'mexDoF_Example_2D',Main_Dir);
 ```
 
 Here we named the executable `mexDoF_Example_2D` (see next section).
 
-#Run It!
+# Run It!
 
 First, load up a 2-D triangle mesh:
 ```matlab

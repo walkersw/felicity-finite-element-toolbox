@@ -3,13 +3,13 @@ Mesh Generation With TIGER: Part 2
 
 This is a tutorial on generating unstructured meshes of polygons and surface meshes.
 
-#Introduction
+# Introduction
 
 The TIGER algorithm can also mesh domains described by a closed polygonal curve or a water-tight polyhedral surface.
 
 Note: the output mesh from the TIGER algorithm will not have the same vertices as the polygon or polyhedral surface used to describe the domain.  Also, you can only use bisection to compute the cut points.
 
-#Example in 2-D
+# Example in 2-D
 
 We shall use the class `Polygon_Mesh` located in
 ```matlab
@@ -17,7 +17,7 @@ We shall use the class `Polygon_Mesh` located in
 ```
 to create a 2-D mesh of the domain.
 
-##Create Polygonal Mesh
+## Create Polygonal Mesh
 
 First, sample a parametric curve:
 ```matlab
@@ -37,7 +37,7 @@ Then, create a Level Set object:
 LS = Polygon_Mesh(Vtx,Edge);
 ```
 
-##Mesh It!
+## Mesh It!
 
 Create the 2-D Mesher:
 ```matlab
@@ -47,13 +47,30 @@ Use_Newton = false; % cannot use Newton Method here...
 TOL = 1E-3;
 MG = Mesher2Dmex(Box_Dim,Num_BCC_Points,Use_Newton,TOL);
 ```
-Generate the mesh:
+
+Next, we need to pass a function handle for the level set interpolation to the mesh generator.  For this example, we do
 ```matlab
-MG = MG.Get_Cut_Info(LS);
-[TRI, VTX] = MG.run_mex(LS);
+% setup up handle to interpolation routine
+Interp_Handle = @(pt) LS.Interpolate(pt);
+```
+In general, the user may provide their own interpolation routine that samples the level set function.  The format of the function must be:
+```matlab
+[phi, grad_phi] = Interp_Func(point);
+```
+where
+```matlab
+% phi      = the level set function value
+% grad_phi = the gradient of the level set function
+% point    = array of point coordinate to evaluate at
 ```
 
-##View It
+Generate the mesh:
+```matlab
+MG = MG.Get_Cut_Info(Interp_Handle);
+[TRI, VTX] = MG.run_mex(Interp_Handle);
+```
+
+## View It
 
 Plot the result:
 ```matlab
@@ -68,7 +85,7 @@ It should look like this:
 
 [[https://github.com/walkersw/felicity-finite-element-toolbox/blob/master/images/Star_Mesh_Polygon.jpg|width=500|alt=Star Mesh]]
 
-#Example in 3-D
+# Example in 3-D
 
 We shall use the class `Surface_Mesh` located in
 ```matlab
@@ -76,7 +93,7 @@ We shall use the class `Surface_Mesh` located in
 ```
 to create a 3-D mesh of the domain.
 
-##Load Surface Mesh
+## Load Surface Mesh
 
 For simplicity, we will use a surface mesh that is included with FELICITY:
 ```matlab
@@ -85,7 +102,7 @@ LS = Surface_Mesh(BT.VTX,BT.TRI);
 clear BT;
 ```
 
-##Mesh It!
+## Mesh It!
 
 Create the 3-D Mesher:
 ```matlab
@@ -97,8 +114,11 @@ MG = Mesher3Dmex(Box_Dim,Num_BCC_Points,Use_Newton,TOL);
 ```
 Generate the mesh:
 ```matlab
-MG = MG.Get_Cut_Info(LS);
-[TET, VTX] = MG.run_mex(LS);
+% setup up handle to interpolation routine
+Interp_Handle = @(pt) LS.Interpolate(pt);
+
+MG = MG.Get_Cut_Info(Interp_Handle);
+[TET, VTX] = MG.run_mex(Interp_Handle);
 ```
 
 Extract the surface mesh of the tetrahedral mesh:
@@ -108,7 +128,7 @@ MT = MeshTetrahedron(TET, VTX, 'Bumpy Torus');
 FACES = MT.freeBoundary;
 ```
 
-##View It
+## View It
 
 Plot the result:
 ```matlab

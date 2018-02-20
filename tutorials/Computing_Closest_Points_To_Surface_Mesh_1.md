@@ -3,15 +3,15 @@ Find Closest Points on a Surface Mesh
 
 This tutorial on how to find the closest points on a surface triangulation to a given set of arbitrary points in 3-D.
 
-#Introduction
+# Introduction
 
 Finding the closest point to a manifold is a common task.  It is needed for interpolating data on the surface, or for computing distance functions.
 
 FELICITY provides code generation to do this.  In fact, the underlying mesh geometry may be higher order (e.g. quadratic curved triangles).  The generated code is specific to the type of mesh geometry.
 
-#Generating The Code
+# Generating The Code
 
-##Input File
+## Input File
 
 First, generate code to search surface meshes in 3-D.  In the MATLAB editor, create the following m-function and name it `Point_Search_Surface.m`:
 
@@ -38,27 +38,21 @@ end
 
 Don't worry about what it means just yet (the PDF manual explains more; see Chapter XX (to be added)). 
 
-##Compile It
+## Compile It
 
-Put the file `Point_Search_Surface.m` into a directory that is *in your MATLAB path*. Now define a MATLAB string variable that records that directory name:
-
-```matlab
-Main_Dir = 'C:\Your_Favorite_Directory\'; 
-```
-
-Now compile it by typing the following command at the MATLAB prompt and press "ENTER":
+Put the file `Point_Search_Surface.m` into a directory that is *in your MATLAB path*.  Now compile it by typing the following command at the MATLAB prompt and press "ENTER":
 
 ```matlab
-Convert_PtSearch_script_to_MEX(Main_Dir,'Point_Search_Surface','mex_Point_Search');
+Convert_PtSearch_Definition_to_MEX(@Point_Search_Surface,{},'mex_Point_Search');
 ```
 
 Here we named the executable `mex_Point_Search` (see next section).
 
-#Computing Closest Points To A Sphere
+# Computing Closest Points To A Sphere
 
 A sphere may seem too easy of an example (since the closest points can be computed _exactly_ by hand).  However, it gives us a way to check the accuracy of the code.  And, the tutorial below works *exactly the same* for any other surface mesh.
 
-##Initialization
+## Initialization
 
 Either in an m-script or at the MATLAB prompt, create a unit sphere triangle mesh:
 ```matlab
@@ -70,7 +64,7 @@ Mesh = MeshTriangle(TRI, VTX, 'Surface');
 ```
 The function `triangle_mesh_of_sphere` is a FELICITY routine.
 
-##Create Points To Search
+## Create Points To Search
 
 Define points in the global space:
 ```matlab
@@ -100,7 +94,7 @@ Given_Points = {Cell_Indices, GX, Surface_Neighbors};
 ```
 Note: you can also set `Cell_Indices` to an empty matrix.  In this case, the code assumes the initial guess to be cell #1 (for every point).
 
-##Run The Search
+## Run The Search
 
 Now we run the MEX file we generated before:
 ```matlab
@@ -121,7 +115,7 @@ where `CI` are the cell (triangle) indices (found by the algorithm) that contain
 
 In addition, the coordinates of the closest point *with respect to the enclosing cell* are given in `Local_Ref_Coord`.  In other words, these coordinates are relative to the standard reference triangle.  This is very useful if you want to *interpolate* finite element functions defined on the surface mesh.
 
-##Plot Results
+## Plot Results
 
 Of course, we can convert these local coordinates to coordinates in the global space:
 ```matlab

@@ -6,9 +6,9 @@ Welcome to the FELICITY wiki!
 FELICITY: Finite ELement Implementation and Computational Interface Tool for You
 --------------------------------------------------------------------------------
 
-See the MATLAB central file exchange to download the toolbox (.zip file):
+See the MATLAB central file exchange to download the toolbox (.zip file): <a href="http://www.mathworks.com/matlabcentral/fileexchange/31141-felicity" target="_blank">FELICITY Download</a>
 
-http://www.mathworks.com/matlabcentral/fileexchange/31141-felicity
+Users may post questions/comments to the <a href="https://groups.google.com/forum/#!forum/felicity-finite-element-toolbox-discuss" target="_blank">Discussion Forum</a>.
 
 # Introduction
 
@@ -35,20 +35,13 @@ Please see the manual (PDF) in the .zip file for more information.
 
 # Citing FELCITY
 
-If you use this toolbox in your work, then you must acknowledge it.  Please cite this wiki website and/or the MATLAB central file exchange URL for FELICITY (bibtex entries are below).  A paper will be forthcoming.
+If you use this toolbox in your work, then you must acknowledge it.  Please cite the <a href="https://www.math.lsu.edu/~walker/pdfs/Walker2017_FELICITY_Paper.pdf" target="_blank">paper on FELICITY</a> (bibtex entry given):
 ```
-@WWW{Walker_FEL_Wiki2017,
-  author = {Shawn W. Walker},
-  title  = {FELICITY Wiki Documentation},
-  year   = {2017},
-  url    = {https://github.com/walkersw/felicity-finite-element-toolbox/wiki},
-}
-
-@WWW{FELICITY_REF,
-  author       = {Shawn W. Walker},
-  title        = {{FELICITY}: {F}inite {EL}ement {I}mplementation and {C}omputational {I}nterface {T}ool for {Y}ou},
-  url          = {http://www.mathworks.com/matlabcentral/fileexchange/31141-felicity},
-  howpublished = {http://www.mathworks.com/matlabcentral/fileexchange/31141-felicity},
+@Article{Walker_SJSC2018,
+  author  = {Shawn W. Walker},
+  title   = {{FELICITY}: A Matlab/C++ Toolbox For Developing Finite Element Methods And Simulation Modeling},
+  journal = {SIAM Journal on Scientific Computing (accepted)},
+  year    = {2018},
 }
 ```
 
@@ -61,3 +54,21 @@ Then download the FELICITY package and only keep this sub-directory:
 Next, run `compile_mex_2D_mesh_tiger_code`, `compile_mex_3D_mesh_tiger_code` to compile the C++ code.
 
 Then look at the tutorial: [Mesh Generation With TIGER: Part 1](../wiki/Mesh_Generation_with_TIGER_1).
+
+# Citing TIGER Mesh Generator
+
+If you use the mesh generator in your work, then you must acknowledge it.  Please cite the <a href="https://www.math.lsu.edu/~walker/pdfs/Walker2013_Tetrahedralization_of_Isosurfaces_TIGER.pdf" target="_blank">paper on TIGER</a> (bibtex entry given):
+```
+@Article{Walker_SISC2013,
+  author = {Shawn W. Walker},
+  title = {Tetrahedralization of Isosurfaces with Guaranteed-Quality by Edge
+	Rearrangement ({TIGER})},
+  journal = {SIAM Journal on Scientific Computing},
+  year = {2013},
+  volume = {35},
+  pages = {A294-A326},
+  number = {1},
+  doi = {10.1137/120866075},
+  eprint = {http://epubs.siam.org/doi/pdf/10.1137/120866075}
+}
+```

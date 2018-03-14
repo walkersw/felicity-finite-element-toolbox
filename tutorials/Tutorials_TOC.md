@@ -4,7 +4,9 @@ FELICITY Tutorials
 Introduction
 ------------
 
-This page gives a brief how-to on using the FELICITY toolbox. See the FELICITY (PDF) Manual in the .zip file, which can be downloaded [here](http://www.mathworks.com/matlabcentral/fileexchange/31141-felicity).
+This page gives a brief how-to on using the FELICITY toolbox. Also see the FELICITY (PDF) Manual in the .zip file, which can be downloaded [here](http://www.mathworks.com/matlabcentral/fileexchange/31141-felicity).
+
+NOTE: users should post questions or comments about the toolbox to the <a href="https://groups.google.com/forum/#!forum/felicity-finite-element-toolbox-discuss" target="_blank">Discussion Forum</a>.
 
 # Basic Tutorials
 
